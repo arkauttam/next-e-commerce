@@ -25,10 +25,10 @@ const ProductViewChange = ({
   currentPage,
 }: ProductViewChangeProps) => {
   return (
-    <div className="max-w-screen-xl mx-auto py-4  md:-mb-4 flex flex-wrap items-center gap-2 md:gap-4 px-4 lg:px-0 ">
+    <div className="max-w-screen-xl mx-auto md:-mb-4 flex flex-wrap items-center gap-2 md:gap-4 px-4 lg:px-0 ">
       <div className="mr-auto">
         {/* showing total shown result on the page */}
-        <p className=" text-base md:text-lg  font-medium capitalize text-muted-foreground  select-none">
+        <p className="text-base md:text-lg font-medium capitalize text-muted-foreground select-none">
           {`showing ${((currentPage - 1) * itemPerPage) + 1}-${
             itemPerPage * currentPage
           } of ${totalPages * itemPerPage}`}{" "}
@@ -37,13 +37,13 @@ const ProductViewChange = ({
       </div>
       
       {/* this product list and cart view functionality is hidden on mobile screen */}
-      <div className="hidden lg:flex items-center gap-4">
+      <div className="hidden md:flex items-center gap-4">
         <TooltipProvider delayDuration={0}>
           <Tooltip>
             <TooltipTrigger>
               <div
                 className={cn(
-                  "w-fit p-1 border",
+                  "w-fit p-1 border rounded-md",
                   listView === false && "bg-slate-200 dark:bg-slate-700"
                 )}
                 onClick={() => setListView(false)}
@@ -59,7 +59,7 @@ const ProductViewChange = ({
             <TooltipTrigger>
               <div
                 className={cn(
-                  "w-fit p-1 border",
+                  "w-fit p-1 border rounded-md",
                   listView === true && "bg-slate-200 dark:bg-slate-700"
                 )}
                 onClick={() => setListView(true)}
@@ -73,7 +73,7 @@ const ProductViewChange = ({
           </Tooltip>
         </TooltipProvider>
       </div>
-      <div className="">
+      <div className="fixed bottom-[14rem] right-[1rem] z-10 block lg:hidden">
         <FilterProductsBtn />
       </div>
     </div>

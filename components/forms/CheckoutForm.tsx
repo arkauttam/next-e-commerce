@@ -1,11 +1,19 @@
 'use client'
 import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "../ui/input";
+import { ArrowRight } from "lucide-react";
 
 // Defined Zod schema for form validation
 const schema = z.object({
@@ -22,111 +30,183 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const CheckoutForm: React.FC = () => {
-  // Initialize React Hook Form
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({
+  // Initialize React Hook Form with Form components
+  const form = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      address: "",
+      phone: "",
+      city: "",
+      zip: "",
+      country: "",
+    },
   });
 
   // Handle form submission
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit = (data: FormData) => {
     console.log(data);
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="firstName">First Name</Label>
-            <Input
-              id="firstName"
-              {...register("firstName")}
-              className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-6 focus:outline-none"
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-slate-600 dark:text-white">
+                    First Name <span className="text-sm text-destructive">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your first name"
+                      {...field}
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors.firstName && (
-              <span className="text-red-500">{errors.firstName.message}</span>
-            )}
-          </div>
-          <div>
-            <Label htmlFor="lastName">Last Name</Label>
-            <Input
-              id="lastName"
-              {...register("lastName")}
-              className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-6 focus:outline-none"
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-slate-600 dark:text-white">
+                    Last Name <span className="text-sm text-destructive">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your last name"
+                      {...field}
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors.lastName && (
-              <span className="text-red-500">{errors.lastName.message}</span>
-            )}
           </div>
-        </div>
-        <div>
-          <Label htmlFor="address">Address</Label>
-          <Input
-            id="address"
-            {...register("address")}
-            className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-6 focus:outline-none"
+
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-slate-600 dark:text-white">
+                  Address <span className="text-sm text-destructive">*</span>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter your full address"
+                    {...field}
+                    className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-          {errors.address && (
-            <span className="text-red-500">{errors.address.message}</span>
-          )}
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="phone">Phone</Label>
-            <Input
-              type="tel"
-              id="phone"
-              {...register("phone")}
-              className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-6 focus:outline-none"
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-slate-600 dark:text-white">
+                    Phone <span className="text-sm text-destructive">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="tel"
+                      placeholder="Enter your phone number"
+                      {...field}
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors.phone && (
-              <span className="text-red-500">{errors.phone.message}</span>
-            )}
-          </div>
-          <div>
-            <Label htmlFor="city">City</Label>
-            <Input
-              id="city"
-              {...register("city")}
-              className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-6 focus:outline-none"
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-slate-600 dark:text-white">
+                    City <span className="text-sm text-destructive">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your city"
+                      {...field}
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors.city && (
-              <span className="text-red-500">{errors.city.message}</span>
-            )}
           </div>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="zip">ZIP Code</Label>
-            <Input
-              id="zip"
-              {...register("zip")}
-              className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-6 focus:outline-none"
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="zip"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-slate-600 dark:text-white">
+                    ZIP Code <span className="text-sm text-destructive">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your ZIP code"
+                      {...field}
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors.zip && (
-              <span className="text-red-500">{errors.zip.message}</span>
-            )}
-          </div>
-          <div>
-            <Label htmlFor="country">Country</Label>
-            <Input
-              id="country"
-              {...register("country")}
-              className="w-full p-6 border border-gray-300 dark:border-gray-700 rounded-lg  focus:outline-none"
+            <FormField
+              control={form.control}
+              name="country"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-slate-600 dark:text-white">
+                    Country <span className="text-sm text-destructive">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your country"
+                      {...field}
+                      className="w-full border border-gray-300 dark:border-gray-700 rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            {errors.country && (
-              <span className="text-red-500">{errors.country.message}</span>
-            )}
           </div>
-        </div>
-        <div className="flex items-center justify-end">
-          <Button type="submit">Save</Button>
-        </div>
-      </form>
+
+          <div>
+            <Button type="submit" className="w-full flex items-center justify-center gap-3 my-2 text-xl bg-blue-500 dark:bg-blue-600 text-white py-3 px-8 rounded-full hover:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none"
+            >
+              {" "}
+              <ArrowRight /> Checkout Now
+            </Button>
+          </div>
+
+        </form>
+      </Form>
     </div>
   );
 };

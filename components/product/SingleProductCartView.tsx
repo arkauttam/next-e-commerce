@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import RatingReview from "../others/RatingReview";
-import Link from "next/link";
 import Image from "next/image";
 import ProductOptions from "./ProductOptions";
 import { Product } from "@/types";
@@ -25,7 +24,6 @@ const SingleProductCartView = ({ product }: { product: Product }) => {
     stockItems,
   } = product;
 
-  // Calculate discounted price
   const discountedPrice = calculateDiscount(price, discount);
 
   useEffect(() => {
@@ -37,11 +35,11 @@ const SingleProductCartView = ({ product }: { product: Product }) => {
   }
 
   return (
-    <Link
-      href={`/shop/${id}`}
+    <div
+      onClick={() => router.push(`/shop/${id}`)}
       className="relative border rounded-xl shadow-lg overflow-hidden group"
     >
-      <div className={`w-full bg-gray-200 overflow-hidden`}>
+      <div className={`w-full bg-gray-200 dark:bg-gray-600 overflow-hidden`}>
         <div className="relative w-full h-[18rem] group-hover:scale-110 transition-all duration-300 rounded-md overflow-hidden">
           <Image className="object-contain" src={images[0]} alt={name} fill />
           {stockItems === 0 ? (
@@ -64,12 +62,12 @@ const SingleProductCartView = ({ product }: { product: Product }) => {
             e.preventDefault();
             router.push(`shop?category=${category}`);
           }}
-          className="text-sm text-sky-500 font-light -mb-1 hover:opacity-60 "
+          className="text-sm text-[#154477] -mb-1 hover:opacity-80 font-semibold"
         >
           {" "}
           {category}
         </p>
-        <h3 className="text-xl font-fold capitalize hover:text-green-500">
+        <h3 className="text-base text-gray-600 dark:text-white">
           {name.slice(0, 45)}
           {name.length > 45 && "..."}
         </h3>
@@ -81,7 +79,7 @@ const SingleProductCartView = ({ product }: { product: Product }) => {
           </span>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

@@ -19,7 +19,7 @@ const ProductGallery = ({ images, isInModal }: ProductGalleryProps) => {
     <div className="">
       <div
         className={cn(
-          "relative w-full rounded-xl overflow-hidden bg-gray-200",
+          "relative w-full rounded-xl overflow-hidden bg-gray-200 dark:bg-slate-600",
           isInModal
             ? "w-full lg:min-w-[30rem] h-[15rem] lg:h-[25rem]"
             : "w-full lg:min-w-[30rem] h-[20rem] lg:h-[30rem]"

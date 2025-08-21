@@ -102,7 +102,7 @@ const ShopPageContainer = ({
 
   if (paginatedData.length === 0) {
     return (
-      <div className="h-screen w-full flex items-center justify-center flex-col gap-4 text-xl mx-auto font-semibold space-y-4">
+      <div className="h-screen w-96 flex items-center justify-center flex-col gap-4 text-xl mx-auto font-semibold space-y-4">
         <ProductViewChange
           listView={listView}
           setListView={setListView}
@@ -116,7 +116,7 @@ const ShopPageContainer = ({
   }
 
   return (
-    <div className="md:ml-4 p-2 md:p-0">
+    <div className="md:ml-4 p-2 md:p-0 ">
       {/* product status and filter options */}
       <ProductViewChange
         listView={listView}
@@ -128,7 +128,7 @@ const ShopPageContainer = ({
 
       {/* showing product list or cart view based on state */}
       {listView === true && (
-        <div className="max-w-screen-xl mx-auto overflow-hidden py-4 md:py-8 gap-4 lg:gap-6">
+        <div className="max-w-screen-xl mx-auto overflow-hidden py-4 md:py-8 gap-4 lg:gap-6 space-y-4">
           {paginatedData.map((product) => (
             <SingleProductListView key={product.id} product={product} />
           ))}
@@ -137,7 +137,7 @@ const ShopPageContainer = ({
 
       {listView === false && (
         <div
-          className={`max-w-screen-xl mx-auto overflow-hidden py-4 md:py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${
+          className={`max-w-screen-xl items-center mx-auto overflow-hidden py-4 md:py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-${
             gridColumn || 3
           } overflow-hidden  gap-4 lg:gap-6`}
         >

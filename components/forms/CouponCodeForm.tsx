@@ -18,23 +18,24 @@ const CouponCodeForm = () => {
   };
 
   return (
-    <Card className="mt-2 bg-gray-100 dark:bg-gray-700 p-6 rounded-lg">
+    <Card className="p-4 dark:bg-slate-700">
       <form onSubmit={handleForSubmission} action="" className="space-y-2">
         <Label
-          className="text-xl font-semibold text-gray-900 dark:text-white mb-4"
+          className="text-lg font-semibold text-gray-700 dark:text-white mb-4"
           htmlFor="coupon"
         >
           Enter Your Coupon Code
         </Label>
-        <Input
-          id="coupon"
-          value={coupon}
-          onChange={(e) => setCoupon(e.target.value)}
-          placeholder="e,g write YOUR_COUPON_CODE"
-          className="w-full p-6 rounded-md"
-        />
-        <div className="flex items-center justify-end">
-          <Button>Submit</Button>
+        <div className="flex items-center justify-end gap-4">
+
+          <Input
+            id="coupon"
+            value={coupon}
+            onChange={(e) => setCoupon(e.target.value)}
+            placeholder="YOUR COUPON CODE"
+            className="w-full p-4 rounded-md"
+          />
+          <Button className="border border-input border-green-700 hover:bg-slate-100 bg-transparent dark:bg-slate-800 hover:dark:bg-slate-700 text-green-600">Submit</Button>
         </div>
       </form>
     </Card>

@@ -1,5 +1,5 @@
 "use client";
-import { ShoppingBag, X } from "lucide-react";
+import { ShoppingBag, ShoppingCart, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Badge } from "../ui/badge";
 import {
@@ -39,7 +39,7 @@ const Cart = () => {
   if (!isMounted) {
     return (
       <div className="relative p-2 hover:bg-gray-200 dark:hover:bg-gray-800 duration-200 rounded-md">
-        <ShoppingBag size={25} />
+        <ShoppingCart size={25} />
         <Badge className="absolute -top-2 -right-3" variant="destructive">
           0
         </Badge>
@@ -52,7 +52,7 @@ const Cart = () => {
       <Sheet open={showSheet} onOpenChange={() => setShowSheet(!showSheet)}>
         <SheetTrigger>
           <div className="relative p-2 hover:bg-gray-200 dark:hover:bg-gray-800 duration-200 rounded-md mt-2">
-            <ShoppingBag size={25} />
+            <ShoppingCart size={25} />
             <Badge className="absolute -top-0 -right-2" variant="destructive">
               {getTotalItems()}
             </Badge>

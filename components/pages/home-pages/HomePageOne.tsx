@@ -16,16 +16,15 @@ const HomePageOne = () => {
   return (
     <section className="overflow-hidden">
       <HeroBannerOne />
-      <SpecialDeals textCenter={true} />
+      <SpecialDeals />
       <Suspense fallback={<Loader />}>
         <CategorySectionOne />
       </Suspense>
       <ProductsCollectionOne />
-      <BenefitsSection textCenter={false} />
+      <BenefitsSection/>
       <BannerTwo />
-      <TestimonialsSection textCenter={false} />
-      <LatestBlogPosts twoColunmHeader={true} />
-      <NewsLetterTwo />
+      <TestimonialsSection/>
+      <LatestBlogPosts />
     </section>
   );
 };

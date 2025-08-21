@@ -1,9 +1,12 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 import React from "react";
+import Image from "next/image";
+import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
 
 const BannerTwo = () => {
 
+  const router = useRouter();
 
   // get latest banner data from server and show here
 
@@ -25,13 +28,10 @@ const BannerTwo = () => {
                   need right here.
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-                  <div className="rounded-md shadow">
-                    <Link
-                      href="/shop"
-                      className="w-full flex items-center justify-center px-12 py-3 border border-transparent text-base font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
-                    >
+                  <div className="rounded-md">
+                    <Button className="w-full flex items-center justify-center px-12 py-3 border border-transparent text-base font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10" onClick={() => router.push(`/shop`)}>
                       Shop Now
-                    </Link>
+                    </Button>
                   </div>
                 </div>
               </div>

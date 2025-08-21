@@ -3,6 +3,7 @@
 import CartItemsDetails from "@/components/carts/CartItemsDetails";
 import OrderSummaryForCart from "@/components/carts/OrderSummaryForCart";
 import BreadcrumbComponent from "@/components/others/Breadcrumb";
+import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import React from "react";
 
@@ -18,12 +19,18 @@ const CartPage = () => {
           <BreadcrumbComponent links={["/cart"]} pageText="Shopping Cart" />
           <Separator className="dark:bg-white" />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4">
-          {/* Cart Items */}
-          <CartItemsDetails />
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-4">
+          {/* Cart Items - Takes full width on mobile, 2 columns on xl screens */}
+          <div className="xl:col-span-2">
+            <Card className="p-4 md:p-6 dark:bg-slate-700 h-full">
+              <CartItemsDetails />
+            </Card>
+          </div>
 
-          {/* Order Summary */}
-          <OrderSummaryForCart />
+          {/* Order Summary - Takes full width on mobile, 1 column on xl screens */}
+          <div className="xl:col-span-1">
+            <OrderSummaryForCart />
+          </div>
         </div>
       </div>
     </section>

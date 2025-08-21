@@ -19,7 +19,7 @@ const AddToCartBtn = ({product}:{product:CartItem}) => {
   }
 
   return (
-    <Button onClick={handleAddToCart} className="w-full p-8 rounded-full text-xl hover:ring-2 ring-slate-500 flex items-center gap-4">
+    <Button onClick={handleAddToCart} className="w-full p-8 rounded-full text-xl hover:ring-2 ring-slate-500 flex items-center gap-4 dark:bg-slate-300">
       {" "}
      <ShoppingBag /> Add To Cart
     </Button>

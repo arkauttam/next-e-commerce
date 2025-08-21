@@ -2,24 +2,17 @@
 import React from "react";
 import Image from "next/image";
 import Countdown from "react-countdown";
-import Link from "next/link";
 import { productsData } from "@/data/products/productsData";
-import { cn } from "@/lib/utils";
 import { Card } from "../ui/card";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 
-const SpecialDeals = ({ textCenter }: { textCenter: boolean }) => {
-   const router = useRouter();
+const SpecialDeals = () => {
+  const router = useRouter();
   return (
     <section className="py-16 bg-slate-200 dark:bg-slate-800">
       <div className="max-w-screen-xl mx-auto px-4 lg:px-8">
-        <h2
-          className={cn(
-            "text-3xl lg:text-5xl w-fit mx-auto  mb-12 p-2 font-bold border-l-4 border-rose-500 text-gray-700",
-            textCenter ? "text-center" : "text-left"
-          )}
-        >
+        <h2 className="text-center text-3xl lg:text-5xl w-fit mx-auto  mb-12 p-2 font-bold border-l-4 border-rose-500 text-gray-700 dark:text-white">
           Special Deals
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -64,7 +57,7 @@ const SpecialDeals = ({ textCenter }: { textCenter: boolean }) => {
                   date={Date.now() + 7 * 24 * 60 * 60 * 200}
                 />
 
-                <h3 className="text-xl font-semibold mb-2 text-gray-600">
+                <h3 className="text-xl font-semibold mb-2 text-gray-600 dark:text-white">
                   {deal.name.slice(0, 50)}...
                 </h3>
                 <div className="flex items-center justify-between gap-4 lg:gap-2">
@@ -79,7 +72,7 @@ const SpecialDeals = ({ textCenter }: { textCenter: boolean }) => {
                       (₹{deal.discount} off)
                     </span>
                   </div>
-                   <Button variant="secondary" onClick={() => router.push(`/shop/${deal.id}`)}>
+                  <Button variant="secondary" onClick={() => router.push(`/shop/${deal.id}`)}>
                     View Deal
                   </Button>
                 </div>

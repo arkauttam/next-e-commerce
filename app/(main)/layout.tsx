@@ -1,5 +1,5 @@
-import HeaderOne from "@/components/headers/HeaderOne";
 import Footer from "@/components/footers/Footer";
+import Header from "@/components/headers/Header";
 import ScrollToTop from "@/components/others/ScrollToTop";
 import { Toaster } from "sonner";
 
@@ -11,7 +11,7 @@ export default function Layout({
 }>) {
   return (
     <div>
-      <HeaderOne />
+      <Header/>
       {children}
       <Footer />
       <ScrollToTop />

@@ -6,6 +6,7 @@ import useCartStore from "@/store/cartStore";
 import { Button } from "../ui/button";
 import Loader from "../others/Loader";
 import { formatPrice } from "@/lib/formatPrice";
+import { Card } from "../ui/card";
 
 const OrderSummaryForCheckout = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -22,35 +23,35 @@ const OrderSummaryForCheckout = () => {
   }
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+    <Card className="p-4 dark:bg-slate-700">
       {/* ordered items details */}
       <div>
-        <h2 className="text-lg font-semibold my-2 lg:p-4">Order Items</h2>
+        <h2 className="text-lg font-semibold text-slate-700 dark:text-white">Order Items</h2>
         <CartItemsDetails />
         <Separator className="dark:bg-white/50 mb-2" />
       </div>
 
       {/* order summary for order place */}
       <div className="lg:px-4">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <h2 className="text-xl font-semibold text-gray-700 dark:text-white mb-4">
           Order Summary
         </h2>
         <div className="flex justify-between mb-4">
           <span className="text-gray-700 dark:text-gray-300">Subtotal:</span>
           <span className="text-gray-900 dark:text-white">
-            ${formatPrice(getTotalPrice())}
+            ₹{formatPrice(getTotalPrice())}
           </span>
         </div>
         <div className="flex justify-between mb-4">
           <span className="text-gray-700 dark:text-gray-300">Shipping:</span>
           <span className="text-gray-900 dark:text-white">
-            ${formatPrice(getShippingFee())}
+            ₹{formatPrice(getShippingFee())}
           </span>
         </div>
         <div className="flex justify-between mb-4">
           <span className="text-gray-700 dark:text-gray-300">Tax:</span>
           <span className="text-gray-900 dark:text-white">
-            ${formatPrice(getTax())}
+            ₹{formatPrice(getTax())}
           </span>
         </div>
         <div className="flex justify-between">
@@ -58,14 +59,11 @@ const OrderSummaryForCheckout = () => {
             Total:
           </span>
           <span className="text-xl font-semibold text-gray-900 dark:text-white">
-            ${formatPrice(getTotalAmount())}
+            ₹{formatPrice(getTotalAmount())}
           </span>
         </div>
-        <Button className="text-xl mt-6 bg-blue-500 dark:bg-blue-600 text-white py-6 px-12 hover:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none rounded-full hover:ring-2">
-          Place Order
-        </Button>
       </div>
-    </div>
+    </Card>
   );
 };
 

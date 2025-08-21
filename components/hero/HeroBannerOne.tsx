@@ -14,10 +14,11 @@ import { ArrowRight, Rocket } from "lucide-react";
 import { motion } from "framer-motion";
 import { bannerData } from "@/data/banner/bannerData";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const HeroBannerOne = () => {
   // get banners data from server then display here
+  const router = useRouter();
 
   return (
     <section className="bg-gradient-to-r from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 ">
@@ -55,15 +56,14 @@ const HeroBannerOne = () => {
                   <p className="max-w-96 mx-auto leading-6">
                     {data.description}
                   </p>
-                  <Link href={data.link} className="block ">
-                    <Button
-                      size={"lg"}
-                      variant="default"
-                      className="text-xl p-3 md:p-8 rounded-full gap-2 md:gap-4 mb-4"
-                    >
-                      <ArrowRight className="text-rose-500" /> {data.button}
-                    </Button>
-                  </Link>
+                  <Button
+                    size={"lg"}
+                    variant="default"
+                    className="text-xl p-3 md:p-8 rounded-full gap-2 md:gap-4 mb-4"
+                    onClick={() => router.push(`/${data.link}`)}
+                  >
+                    <ArrowRight className="text-rose-500" /> {data.button}
+                  </Button>
                 </motion.div>
 
                 <motion.div
