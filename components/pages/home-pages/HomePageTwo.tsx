@@ -14,15 +14,15 @@ const HomePageTwo = () => {
   return (
     <div className="overflow-hidden">
       <HeroBannerTwo />
-      <SpecialDeals textCenter={true} />
+      <SpecialDeals />
       <Suspense fallback={<Loader />}>
         <CategorySectionOne />
       </Suspense>
       <ProductsCollectionTwo />
-      <BenefitsSection textCenter={true} />
+      <BenefitsSection />
       <BannerTwo />
-      <TestimonialsSection textCenter={true} />
-      <LatestBlogPosts twoColunmHeader={false} />
+      <TestimonialsSection />
+      <LatestBlogPosts />
       <NewsLetterTwo />
     </div>
   );
