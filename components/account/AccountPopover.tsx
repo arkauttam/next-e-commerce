@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import {
   Popover,
   PopoverContent,
@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 
 const AccountPopover = () => {
   const pathname = usePathname();
+  const [isLogin, setIsLogin] = useState(true);
 
   const userLinks = [
     {
@@ -46,33 +47,45 @@ const AccountPopover = () => {
     <div className="hidden lg:block">
       <Popover>
         <PopoverTrigger className="flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 duration-200 p-2 rounded-md">
-          <User size={25}  />
+          <User size={25} />
         </PopoverTrigger>
         <PopoverContent
           className=" rounded-2xl 
       "
         >
-          <ul className="space-y-1 text-center ">
-            <UserAvatar />
-            <Separator className="!my-2" />
-            {userLinks.map((link) => (
-              <Link
-                key={link.link}
-                href={link.link}
-                className={cn(
-                  "flex items-center gap-2 hover:bg-gray-200 dark:hover:bg-gray-800 p-2 rounded-md",
-                  link.isActive && "bg-gray-200  dark:bg-gray-800"
-                )}
-              >
-                {link.icon} {link.label}
-              </Link>
-            ))}
-            <Separator className="!my-2" />
-            <button className="flex items-start justify-start gap-2 p-2 bg-transparent hover:opacity-50">
-              <LogOut />
-              Logout
-            </button>
-          </ul>
+          {isLogin ?
+            <ul className="space-y-1 text-center ">
+              <UserAvatar />
+              <Separator className="!my-2" />
+              {userLinks.map((link) => (
+                <Link
+                  key={link.link}
+                  href={link.link}
+                  className={cn(
+                    "flex items-center gap-2 hover:bg-gray-200 dark:hover:bg-gray-800 p-2 rounded-md",
+                    link.isActive && "bg-gray-200  dark:bg-gray-800"
+                  )}
+                >
+                  {link.icon} {link.label}
+                </Link>
+              ))}
+              <Separator className="!my-2" />
+              <button className="flex items-start justify-start gap-2 p-2 bg-transparent hover:opacity-50">
+                <LogOut />
+                Logout
+              </button>
+            </ul>
+            : 
+            <ul className="space-y-1 text-center">
+              <button className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50">
+                SignUp
+              </button>
+              <Separator className="!my-2" />
+              <button className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50">
+                LogIn
+              </button>
+            </ul>}
+
         </PopoverContent>
       </Popover>
     </div>

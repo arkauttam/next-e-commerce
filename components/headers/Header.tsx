@@ -15,7 +15,6 @@ import { useMobileSearchModal } from "@/store/mobileSearchStore";
 
 const Header = () => {
   const pathname = usePathname();
-
   const links = [
     {
       label: "Home",
