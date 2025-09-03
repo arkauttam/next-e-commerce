@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 
 const AccountPopover = () => {
   const pathname = usePathname();
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   const userLinks = [
     {
