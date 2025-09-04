@@ -6,10 +6,20 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Heart, HelpCircle, ListOrdered, LogOut, User } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
 import UserAvatar from "./UserAvatar";
 import { usePathname } from "next/navigation";
+import SignInForm from "../forms/SignInForm";
+import SignUpForm from "../forms/SignUpForm";
+
 import { cn } from "@/lib/utils";
 
 const AccountPopover = () => {
@@ -53,7 +63,7 @@ const AccountPopover = () => {
           className=" rounded-2xl 
       "
         >
-          {isLogin ?
+          {isLogin ? (
             <ul className="space-y-1 text-center ">
               <UserAvatar />
               <Separator className="!my-2" />
@@ -75,17 +85,41 @@ const AccountPopover = () => {
                 Logout
               </button>
             </ul>
-            : 
+          ) : (
             <ul className="space-y-1 text-center">
-              <button className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50">
-                SignUp
-              </button>
-              <Separator className="!my-2" />
-              <button className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50">
-                LogIn
-              </button>
-            </ul>}
+              {/* Signup Dialog */}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50">
+                    SignUp
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Sign Up</DialogTitle>
+                  </DialogHeader>
+              <SignUpForm/>
+                </DialogContent>
+              </Dialog>
 
+              <Separator className="!my-2" />
+
+              {/* Login Dialog */}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50">
+                    LogIn
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Log In</DialogTitle>
+                  </DialogHeader>
+                  <SignInForm/>
+                </DialogContent>
+              </Dialog>
+            </ul>
+          )}
         </PopoverContent>
       </Popover>
     </div>
