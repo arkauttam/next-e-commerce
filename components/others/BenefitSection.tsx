@@ -1,6 +1,7 @@
 import React from "react";
 import { Truck, RefreshCcw, DollarSign, Users } from "lucide-react";
 import { Card } from "../ui/card";
+import { TextAnimate } from "../magicui/text-animate";
 
 const benefits = [
   {
@@ -35,7 +36,10 @@ const BenefitsSection = () => {
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-center md:justify-between mb-12">
           <h2 className="text-3xl md:text-5xl !text-center md:text-start font-bold text-gray-600 dark:text-white border-l-4 p-2 border-l-rose-500">
-            Discover Our Advantages
+           <TextAnimate animation="slideUp" by="word">
+             Discover Our Advantages
+           </TextAnimate>
+           
           </h2>
         </div>
 

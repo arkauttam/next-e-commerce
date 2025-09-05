@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import {
   Popover,
@@ -13,7 +14,8 @@ import {
   User,
   UserPlus,
   LogIn,
-} from "lucide-react"; // ✅ Added UserPlus & LogIn
+  Globe, // ✅ Globe icon from lucide-react
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -28,6 +30,7 @@ import { usePathname } from "next/navigation";
 import SignInForm from "../forms/SignInForm";
 import SignUpForm from "../forms/SignUpForm";
 
+
 import { cn } from "@/lib/utils";
 
 const AccountPopover = () => {
@@ -38,25 +41,25 @@ const AccountPopover = () => {
     {
       link: "/my-account",
       label: "My Account",
-      icon: <User />,
+      icon: <User size={16} />,
       isActive: pathname.includes("/my-account"),
     },
     {
       link: "/wishlist",
       label: "Wishlist",
-      icon: <Heart />,
+      icon: <Heart size={16} />,
       isActive: pathname.includes("/wishlist"),
     },
     {
       link: "/my-orders",
       label: "My Orders",
-      icon: <ListOrdered />,
+      icon: <ListOrdered size={16} />,
       isActive: pathname.includes("/my-orders"),
     },
     {
       link: "/help",
       label: "Help",
-      icon: <HelpCircle />,
+      icon: <HelpCircle size={16} />,
       isActive: pathname.includes("/help"),
     },
   ];
@@ -67,7 +70,8 @@ const AccountPopover = () => {
         <PopoverTrigger className="flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 duration-200 p-2 rounded-md">
           <User size={25} />
         </PopoverTrigger>
-        <PopoverContent className="rounded-2xl">
+
+        <PopoverContent className="relative overflow-hidden rounded-2xl w-64">
           {isLogin ? (
             <ul className="space-y-1 text-center">
               <UserAvatar />
@@ -85,7 +89,7 @@ const AccountPopover = () => {
                 </Link>
               ))}
               <Separator className="!my-2" />
-              <button className="flex items-start justify-start gap-2 p-2 bg-transparent hover:opacity-50">
+              <button className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50 w-full">
                 <LogOut size={16} />
                 Logout
               </button>
@@ -95,14 +99,13 @@ const AccountPopover = () => {
               {/* Signup Dialog */}
               <Dialog>
                 <DialogTrigger asChild>
-                  <button className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50">
+                  <button className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50 w-full">
                     <UserPlus size={16} />
                     SignUp
                   </button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
                   <DialogHeader>
-                   
                   </DialogHeader>
                   <SignUpForm />
                 </DialogContent>
@@ -113,13 +116,14 @@ const AccountPopover = () => {
               {/* Login Dialog */}
               <Dialog>
                 <DialogTrigger asChild>
-                  <button className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50">
+                  <button className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50 w-full">
                     <LogIn size={16} />
                     LogIn
                   </button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
-                  <DialogHeader></DialogHeader>
+                  <DialogHeader>
+                  </DialogHeader>
                   <SignInForm />
                 </DialogContent>
               </Dialog>

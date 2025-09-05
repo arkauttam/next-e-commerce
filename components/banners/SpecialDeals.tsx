@@ -6,6 +6,7 @@ import { productsData } from "@/data/products/productsData";
 import { Card } from "../ui/card";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import { TextAnimate } from "../magicui/text-animate";
 
 const SpecialDeals = () => {
   const router = useRouter();
@@ -13,8 +14,11 @@ const SpecialDeals = () => {
     <section className="py-16 bg-slate-200 dark:bg-slate-800">
       <div className="max-w-screen-xl mx-auto px-4 lg:px-8">
         <h2 className="text-center text-3xl lg:text-5xl w-fit mx-auto  mb-12 p-2 font-bold border-l-4 border-rose-500 text-gray-700 dark:text-white">
-          Special Deals
+          <TextAnimate animation="scaleDown" by="word">
+            Special Deals
+          </TextAnimate>
         </h2>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {productsData.slice(0, 4).map((deal) => (
             <Card
@@ -36,19 +40,31 @@ const SpecialDeals = () => {
                     return (
                       <div className="py-2 flex items-center gap-3">
                         <div>
-                          <p className="text-2xl font-medium">{days < 10 && '0'}{days} :</p>
+                          <p className="text-2xl font-medium">
+                            {days < 10 && "0"}
+                            {days} :
+                          </p>
                           <small>Days</small>
                         </div>
                         <div>
-                          <p className="text-2xl font-medium">{hours < 10 && '0'}{hours} :</p>
+                          <p className="text-2xl font-medium">
+                            {hours < 10 && "0"}
+                            {hours} :
+                          </p>
                           <small>Hours</small>
                         </div>
                         <div>
-                          <p className="text-2xl font-medium">{minutes < 10 && '0'}{minutes} :</p>
+                          <p className="text-2xl font-medium">
+                            {minutes < 10 && "0"}
+                            {minutes} :
+                          </p>
                           <small>Minutes</small>
                         </div>
                         <div>
-                          <p className="text-2xl font-medium">{seconds < 10 && '0'}{seconds}</p>
+                          <p className="text-2xl font-medium">
+                            {seconds < 10 && "0"}
+                            {seconds}
+                          </p>
                           <small>Seconds</small>
                         </div>
                       </div>
@@ -72,7 +88,10 @@ const SpecialDeals = () => {
                       (₹{deal.discount} off)
                     </span>
                   </div>
-                  <Button variant="secondary" onClick={() => router.push(`/shop/${deal.id}`)}>
+                  <Button
+                    variant="secondary"
+                    onClick={() => router.push(`/shop/${deal.id}`)}
+                  >
                     View Deal
                   </Button>
                 </div>
