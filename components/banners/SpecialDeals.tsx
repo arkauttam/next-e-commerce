@@ -14,11 +14,10 @@ const SpecialDeals = () => {
     <section className="py-16 bg-slate-200 dark:bg-slate-800">
       <div className="max-w-screen-xl mx-auto px-4 lg:px-8">
         <h2 className="text-center text-3xl lg:text-5xl w-fit mx-auto  mb-12 p-2 font-bold border-l-4 border-rose-500 text-gray-700 dark:text-white">
-          <TextAnimate animation="scaleDown" by="word">
+          <TextAnimate animation="slideUp" by="word">
             Special Deals
           </TextAnimate>
         </h2>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {productsData.slice(0, 4).map((deal) => (
             <Card
