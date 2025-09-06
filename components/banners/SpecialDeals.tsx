@@ -7,6 +7,8 @@ import { Card } from "../ui/card";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { TextAnimate } from "../magicui/text-animate";
+//import { ShinyButton } from "../magicui/shiny-button";
+import { ShimmerButton } from "../magicui/shimmer-button";
 
 const SpecialDeals = () => {
   const router = useRouter();
@@ -87,12 +89,12 @@ const SpecialDeals = () => {
                       (₹{deal.discount} off)
                     </span>
                   </div>
-                  <Button
-                    variant="secondary"
+
+                  <ShimmerButton
                     onClick={() => router.push(`/shop/${deal.id}`)}
                   >
                     View Deal
-                  </Button>
+                  </ShimmerButton>
                 </div>
               </div>
             </Card>
