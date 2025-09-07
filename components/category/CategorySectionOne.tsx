@@ -44,9 +44,7 @@ const CategorySectionOne = () => {
 
               <div className="text-center mt-2 space-y-1">
                 {/* Category Name with Shimmer */}
-                <TextShimmer
-                 className="text-xl font-bold" duration={1.5}
-                >
+                <TextShimmer className="text-xl font-bold" duration={1.5}>
                   {category.name}
                 </TextShimmer>
 

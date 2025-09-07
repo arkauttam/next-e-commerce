@@ -1,21 +1,27 @@
-'use client';
+"use client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { FaGoogle } from "react-icons/fa6";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
+import useAuthStore from "@/hooks/auth/useAuthStore";
 
-// Define Zod schema for form validation
-const signUpSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  confirmPassword: z.string().min(6, "Password must be at least 6 characters"),
-});
+// Zod validation schema
+const signUpSchema = z
+  .object({
+    name: z.string().min(2, "Name must be at least 2 characters"),
+    email: z.string().email("Invalid email"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z
+      .string()
+      .min(6, "Password must be at least 6 characters"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
@@ -28,129 +34,88 @@ const SignUpForm = () => {
     resolver: zodResolver(signUpSchema),
   });
 
+  const { setAuthModal } = useAuthStore();
+
   const onSubmit = (data: SignUpFormData) => {
-    console.log(data); // Handle form submission
+    console.log("SignUp data:", data);
   };
 
   return (
-    <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md w-full max-w-md">
+    <div className="p-8 rounded-lg shadow-md w-full">
       <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center">
         Create an Account
       </h2>
 
-      {/* Form Section */}
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        {/* Name */}
         <div>
-          <Label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >
-            Full Name
-          </Label>
-          <Input
-            type="text"
-            id="name"
-            placeholder="shohag miah"
-            className={`w-full border ${
-              errors.name ? "border-red-500" : "border-gray-300"
-            } dark:border-gray-700 rounded-lg px-4 py-2 focus:outline-none`}
-            {...register("name")}
-          />
+          <Label htmlFor="name">Full Name</Label>
+          <Input id="name" placeholder="John Doe" {...register("name")} />
           {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+            <p className="text-red-500 text-sm">{errors.name.message}</p>
           )}
         </div>
+
+        {/* Email */}
         <div>
-          <Label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >
-            Email Address
-          </Label>
+          <Label htmlFor="email">Email Address</Label>
           <Input
-            type="email"
-            placeholder="shohag@gmail.com"
             id="email"
-            className={`w-full border ${
-              errors.email ? "border-red-500" : "border-gray-300"
-            } dark:border-gray-700 rounded-lg px-4 py-2 focus:outline-none`}
+            type="email"
+            placeholder="you@example.com"
             {...register("email")}
           />
           {errors.email && (
-            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
           )}
         </div>
+
+        {/* Password */}
         <div>
-          <Label
-            htmlFor="password"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >
-            Password
-          </Label>
+          <Label htmlFor="password">Password</Label>
           <Input
-            type="password"
             id="password"
+            type="password"
             placeholder="******"
-            className={`w-full border ${
-              errors.password ? "border-red-500" : "border-gray-300"
-            } dark:border-gray-700 rounded-lg px-4 py-2 focus:outline-none`}
             {...register("password")}
           />
           {errors.password && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.password.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors.password.message}</p>
           )}
         </div>
+
+        {/* Confirm Password */}
         <div>
-          <Label
-            htmlFor="confirmPassword"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-          >
-            Confirm Password
-          </Label>
+          <Label htmlFor="confirmPassword">Confirm Password</Label>
           <Input
-            type="password"
             id="confirmPassword"
+            type="password"
             placeholder="******"
-            className={`w-full border ${
-              errors.confirmPassword ? "border-red-500" : "border-gray-300"
-            } dark:border-gray-700 rounded-lg px-4 py-2 focus:outline-none`}
             {...register("confirmPassword")}
           />
           {errors.confirmPassword && (
-            <p className="text-red-500 text-sm mt-1">
+            <p className="text-red-500 text-sm">
               {errors.confirmPassword.message}
             </p>
           )}
         </div>
 
-        <Button
-          type="submit"
-          className="w-full bg-blue-500 dark:bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none"
-        >
+        <Button type="submit" className="w-full">
           Sign Up
         </Button>
       </form>
 
-      {/* Divider */}
-      <div className="flex items-center gap-2 my-4">
-        <div className="flex-1 h-px bg-gray-300 dark:bg-gray-700" />
-        <span className="text-sm text-gray-500">or</span>
-        <div className="flex-1 h-px bg-gray-300 dark:bg-gray-700" />
-      </div>
-
-      {/* Google Signup Button at Bottom */}
-      <Button className="w-full p-6 flex items-center justify-center gap-2 text-lg rounded-lg focus:outline-none">
-        <FaGoogle size={25} /> Sign Up With Google
-      </Button>
-
-      {/* Already Have Account */}
+      {/* Switch to Login */}
       <p className="text-center mt-4">
         Already have an account?{" "}
-        <Link className="underline" href="/sign-in">
+        <button
+          className="underline"
+          onClick={() =>
+            setAuthModal({ openAuthModal: true, authModalType: "LOGIN" })
+          }
+        >
           Sign In
-        </Link>
+        </button>
       </p>
     </div>
   );
