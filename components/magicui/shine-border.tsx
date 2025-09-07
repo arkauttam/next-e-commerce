@@ -1,63 +1,54 @@
 "use client";
 
-import * as React from "react";
-
+import React from "react";
 import { cn } from "@/lib/utils";
 
 interface ShineBorderProps extends React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * Width of the border in pixels
-   * @default 1
-   */
   borderWidth?: number;
-  /**
-   * Duration of the animation in seconds
-   * @default 14
-   */
-  duration?: number;
-  /**
-   * Color of the border, can be a single color or an array of colors
-   * @default "#000000"
-   */
-  shineColor?: string | string[];
+  duration?: number; // seconds
+  shineColor?: string | string[]; // accept string or array
 }
 
-/**
- * Shine Border
- *
- * An animated background border effect component with configurable properties.
- */
-export function ShineBorder({
-  borderWidth = 1,
-  duration = 14,
-  shineColor = "#000000",
+export const ShineBorder: React.FC<ShineBorderProps> = ({
+  children,
   className,
-  style,
+  borderWidth = 2,
+  duration = 6,
+  shineColor = ["#A07CFE", "#FE8FB5", "#FFBE7B"],
   ...props
-}: ShineBorderProps) {
+}) => {
+  const colors = Array.isArray(shineColor) ? shineColor : [shineColor];
+  const stops = [...colors, colors[0]]; // repeat first color for smooth loop
+  const gradient = `conic-gradient(from 0deg at 50% 50%, ${stops.join(", ")})`;
+
+  const overlayStyle: React.CSSProperties = {
+    backgroundImage: gradient,
+    backgroundSize: "200% 200%",
+    borderRadius: "inherit",
+    padding: `${borderWidth}px`,
+    mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+    WebkitMask:
+      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+    WebkitMaskComposite: "xor",
+    // @ts-ignore
+    maskComposite: "exclude",
+    ["--speed" as any]: `${duration}s`,
+  };
+
   return (
     <div
-      style={
-        {
-          "--border-width": `${borderWidth}px`,
-          "--duration": `${duration}s`,
-          backgroundImage: `radial-gradient(transparent,transparent, ${
-            Array.isArray(shineColor) ? shineColor.join(",") : shineColor
-          },transparent,transparent)`,
-          backgroundSize: "300% 300%",
-          mask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
-          WebkitMask: `linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)`,
-          WebkitMaskComposite: "xor",
-          maskComposite: "exclude",
-          padding: "var(--border-width)",
-          ...style,
-        } as React.CSSProperties
-      }
-      className={cn(
-        "pointer-events-none absolute inset-0 size-full rounded-[inherit] will-change-[background-position] motion-safe:animate-shine",
-        className,
-      )}
+      className={cn("relative overflow-hidden rounded-xl", className)}
       {...props}
-    />
+    >
+      {/* Animated border overlay */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-10 will-change-transform animate-spin-gradient"
+        style={overlayStyle}
+      />
+
+      {/* Content */}
+      <div className="relative z-0">{children}</div>
+    </div>
   );
-}
+};
