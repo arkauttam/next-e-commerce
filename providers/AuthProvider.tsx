@@ -4,11 +4,17 @@ import { useEffect } from "react";
 import useAuthStore from "@/hooks/auth/useAuthStore";
 
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
-  const hydrate = useAuthStore((s) => s.hydrate);
+  const { hydrate, setAuthModal, isAuthenticated } = useAuthStore();
 
   useEffect(() => {
-    hydrate(); // restore tokens/user from cookies
-  }, [hydrate]);
+    if (!isAuthenticated) {
+      setAuthModal({ openAuthModal: true, authModalType: "LOGIN" });
+    } else {
+      setAuthModal({ openAuthModal: false, authModalType: "LOGIN" });
+    }
+
+    hydrate();
+  }, [hydrate, setAuthModal, isAuthenticated]);
 
   return <>{children}</>;
 }
