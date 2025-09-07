@@ -15,7 +15,7 @@ export default function Layout({
       {children}
       <Footer />
       <ScrollToTop />
-      <Toaster position="top-right" duration={2000}/>
+      {/* <Toaster position="top-right" duration={2000}/> */}
     </div>
   );
 }
