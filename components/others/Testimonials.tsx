@@ -9,13 +9,16 @@ import {
 } from "@/components/ui/carousel";
 import { testinomials } from "@/data/testimonials/testimonialData";
 import Autoplay from "embla-carousel-autoplay";
+import { TextAnimate } from "../magicui/text-animate";
 
 const TestimonialsSection = () => {
   return (
     <div className="py-16 bg-gray-200 dark:bg-gray-800">
       <div className="max-w-screen-xl mx-auto px-4 md:px-8">
         <h2 className="text-3xl md:text-5xl font-bold mb-12 p-2 w-fit text-gray-700 dark:text-white text-start border-l-4 border-l-rose-500">
+          <TextAnimate animation="scaleDown" by="word">
           What Our Customers Say
+          </TextAnimate>
         </h2>
         <Carousel
           plugins={[

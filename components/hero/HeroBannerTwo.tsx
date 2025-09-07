@@ -44,7 +44,9 @@ function HeroBannerTwo() {
           className="lg:col-span-1 bg-white text-black dark:bg-slate-900 dark:text-white p-4 
         rounded-md shadow-md space-y-2 py-6 text-center"
         >
-          <h2 className="text-3xl font-bold">Special Summer Sale</h2>
+          <h2 className="text-3xl font-bold">
+            Special Summer Sale
+            </h2>
           <div className="relative w-full h-60">
             <Image
               src={"/images/products/senheiser-removebg-preview.png"}
