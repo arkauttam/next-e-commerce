@@ -15,7 +15,7 @@ export const useRefreshToken = () => {
         throw new Error("No refresh token found");
       }
 
-      const { data } = await axiosPublic.post("/token/refresh/", {
+      const { data } = await axiosPublic.post("/accounts/token/refresh/", {
         refresh,
       });
 

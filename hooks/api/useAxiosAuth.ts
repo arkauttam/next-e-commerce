@@ -20,13 +20,13 @@ const processQueue = (error: any, token: string | null = null) => {
 
 export const useAxiosAuth = () => {
   const refreshToken = useRefreshToken();
-  const { accessToken } = useAuthStore();
 
   useEffect(() => {
     const requestIntercept = axiosProtected.interceptors.request.use(
       (config) => {
-        if (accessToken) {
-          config.headers["Authorization"] = `Bearer ${accessToken}`;
+        const token = useAuthStore.getState().accessToken;
+        if (token) {
+          config.headers["Authorization"] = `Bearer ${token}`;
         }
         return config;
       },
@@ -37,8 +37,15 @@ export const useAxiosAuth = () => {
       (response) => response,
       async (error) => {
         const prevRequest = error.config;
-
-        if (error?.response?.status === 401 && !prevRequest._retry) {
+        // if (prevRequest.url.includes("/accounts/token/refresh/")) {
+        //   useAuthStore.getState().setUserLoggedOut();
+        //   return Promise.reject(error);
+        // }
+        if (
+          (error?.response?.status === 401 ||
+            error?.response?.status === 403) &&
+          !prevRequest._retry
+        ) {
           if (isRefreshing) {
             return new Promise((resolve, reject) => {
               pendingRequests.push({ resolve, reject });
@@ -76,7 +83,7 @@ export const useAxiosAuth = () => {
       axiosProtected.interceptors.request.eject(requestIntercept);
       axiosProtected.interceptors.response.eject(responseIntercept);
     };
-  }, [accessToken, refreshToken]);
+  }, [refreshToken]);
 
   return axiosProtected;
 };
