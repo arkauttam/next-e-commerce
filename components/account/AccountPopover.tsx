@@ -111,7 +111,7 @@ const AccountPopover = () => {
   ];
 
   return (
-    <div className="hidden lg:block">
+    <div>
       <Popover>
         <PopoverTrigger className="flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 duration-200 p-2 rounded-md">
           {isAuthenticated ? (

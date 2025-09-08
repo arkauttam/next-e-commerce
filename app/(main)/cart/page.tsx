@@ -5,6 +5,7 @@ import OrderSummaryForCart from "@/components/carts/OrderSummaryForCart";
 import BreadcrumbComponent from "@/components/others/Breadcrumb";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import withAuth from "@/components/withAuth/withAuth";
 import React from "react";
 
 const CartPage = () => {
@@ -37,4 +38,4 @@ const CartPage = () => {
   );
 };
 
-export default CartPage;
+export default withAuth(CartPage);

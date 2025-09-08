@@ -5,7 +5,6 @@ import {
   SheetContent,
   SheetDescription,
   SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {
@@ -13,21 +12,21 @@ import {
   HelpCircle,
   Home,
   ListOrdered,
-  LogOut,
   Menu,
   Store,
   Text,
   User,
 } from "lucide-react";
 import Link from "next/link";
-import { Button } from "../ui/button";
 import { ThemeToggle } from "../theme/ThemeToggle";
 import { Separator } from "../ui/separator";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import useAuthStore from "@/hooks/auth/useAuthStore";
 
 const MobileHeader = () => {
   const pathname = usePathname();
+  const { isAuthenticated } = useAuthStore();
 
   const userLinks = [
     {
@@ -87,14 +86,14 @@ const MobileHeader = () => {
           <SheetHeader>
             <SheetDescription>
               <ul className="space-y-1 text-start text-lg p-2">
-                {/* navigation links here */}
+                {/* Navigation links */}
                 {navlinks.map((link) => (
                   <Link
                     key={link.link}
                     href={link.link}
                     className={cn(
                       "flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800",
-                      link.isActive && "bg-gray-200  dark:bg-gray-800"
+                      link.isActive && "bg-gray-200 dark:bg-gray-800"
                     )}
                   >
                     {link.icon}
@@ -102,31 +101,29 @@ const MobileHeader = () => {
                   </Link>
                 ))}
                 <Separator className="!my-2" />
-                {/* theme toggle option here */}
+                {/* Theme toggle */}
                 <div className="flex items-center gap-2">
                   <ThemeToggle />
                   <p>Change Theme</p>
                 </div>
                 <Separator className="!my-2" />
-
-                {/* user retated options here */}
-                {userLinks.map((link) => (
-                  <Link
-                    key={link.link}
-                    href={link.link}
-                    className={cn(
-                      "flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800",
-                      link.isActive && "bg-gray-200  dark:bg-gray-800"
-                    )}
-                  >
-                    {link.icon} {link.label}
-                  </Link>
-                ))}
+                {/* User-related links, conditionally rendered */}
+                {userLinks.map((link) =>
+                  // Only render "Help" or authenticated user links
+                  (isAuthenticated || link.label === "Help") ? (
+                    <Link
+                      key={link.link}
+                      href={link.link}
+                      className={cn(
+                        "flex items-center gap-2 p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800",
+                        link.isActive && "bg-gray-200 dark:bg-gray-800"
+                      )}
+                    >
+                      {link.icon} {link.label}
+                    </Link>
+                  ) : null
+                )}
                 <Separator className="!my-2" />
-                <button className="flex items-start justify-start gap-2 p-2 bg-transparent hover:opacity-50">
-                  <LogOut />
-                  Logout
-                </button>
               </ul>
             </SheetDescription>
           </SheetHeader>

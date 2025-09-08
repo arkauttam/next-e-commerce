@@ -53,6 +53,11 @@ const Header = () => {
           <div className="lg:hidden text-center">
             <Search size={25} onClick={openModal} />
           </div>
+          <div className="lg:hidden text-center">
+
+            <AccountPopover />
+          </div>
+
           {/* desktop search */}
           <div className="hidden lg:block">
             <Suspense fallback={<p>Loading...</p>}>
@@ -62,8 +67,12 @@ const Header = () => {
           <div className="flex items-center gap-6 lg:gap-2 lg:-mt-1">
             <div className="hidden lg:block">
               <ThemeToggle />
+
             </div>
+            <div className="hidden lg:block">
             <AccountPopover />
+
+            </div>
             <Cart />
             <MobileHeader />
           </div>

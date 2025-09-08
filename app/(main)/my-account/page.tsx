@@ -1,4 +1,5 @@
-
+"use client";
+import withAuth from '@/components/withAuth/withAuth';
 import Link from 'next/link';
 import React from 'react';
 
@@ -24,10 +25,9 @@ const MyAccountPage = () => {
         </div>
         <div className="mt-8 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md">
           <div className='flex items-center justify-between'>
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Address</h2>
-          <Link href={'/my-account/edit'} className='p-2 rounded-md border'>Edit Address</Link>
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Address</h2>
+            <Link href={'/my-account/edit'} className='p-2 rounded-md border'>Edit Address</Link>
           </div>
-          
           <div>
             <p className="text-gray-800 dark:text-white">123 Main Street</p>
             <p className="text-gray-800 dark:text-white">City, State, ZIP</p>
@@ -37,8 +37,6 @@ const MyAccountPage = () => {
         <div className="mt-8 bg-white dark:bg-gray-900 p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">Order History</h2>
           <div>
-            {/* Display order history */}
-            {/* You can map over user's orders and display them here */}
             <div className="border-t border-gray-200 dark:border-gray-700 py-4">
               <div className="flex justify-between items-center">
                 <p className="text-gray-800 dark:text-white">Order #12345</p>
@@ -54,4 +52,4 @@ const MyAccountPage = () => {
   );
 };
 
-export default MyAccountPage;
+export default withAuth(MyAccountPage);
