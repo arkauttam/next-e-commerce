@@ -37,10 +37,10 @@ export const useAxiosAuth = () => {
       (response) => response,
       async (error) => {
         const prevRequest = error.config;
-        if (prevRequest.url.includes("/token/refresh/")) {
-          useAuthStore.getState().setUserLoggedOut();
-          return Promise.reject(error);
-        }
+        // if (prevRequest.url.includes("/accounts/token/refresh/")) {
+        //   useAuthStore.getState().setUserLoggedOut();
+        //   return Promise.reject(error);
+        // }
         if (
           (error?.response?.status === 401 ||
             error?.response?.status === 403) &&
