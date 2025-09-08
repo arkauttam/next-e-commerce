@@ -27,7 +27,7 @@ const AboutPageTwo = () => {
         {/* Our Team 1 */}
         <div>
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-            Our Team 1
+            Our Team 
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Card 1 */}
@@ -78,7 +78,7 @@ const AboutPageTwo = () => {
         {/* Our Team 2 */}
         <div>
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-            Our Team 2
+            Our Teams
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Card 1 */}
@@ -126,7 +126,7 @@ const AboutPageTwo = () => {
         {/* Our Story (second copy) */}
         <div>
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
-            Our Story
+            Who we Are ?
           </h2>
           <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eget
