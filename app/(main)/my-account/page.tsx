@@ -4,6 +4,7 @@ import { User, Mail, Phone, MapPin, Package, Edit, Eye, Calendar, Shield, Clock,
 import axios from 'axios';
 import useAuthStore from '@/hooks/auth/useAuthStore';
 import withAuth from '@/components/withAuth/withAuth';
+import { axiosProtected } from '@/services/axiosService';
 
 interface Order {
   id: string;
@@ -67,7 +68,17 @@ const MyAccountPage = () => {
     { id: 2, address: "123 Main Street, Apartment 4B, Kolkata, West Bengal", pin_code: "700001", is_default: false },
     { id: 3, address: "Office: Tech Park Building, Sector V, Salt Lake, Kolkata", pin_code: "700091", is_default: false },
   ];
+ useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axiosProtected.get("/accounts/profile/")
+      } catch (err: any) {
+        console.log(err.message)
+      } 
+    }
 
+    fetchData()
+  }, [])
   useEffect(() => {
     if (user) {
       setEditForm({
@@ -111,9 +122,7 @@ const MyAccountPage = () => {
   const handleSave = async () => {
     setIsLoading(true);
     try {
-      // API call to save personal info
       const response = await axios.put('/api/user/profile', editForm);
-      // In a real app, you would update the user in your auth store
       setIsEditing(false);
       setSaveStatus({ type: 'success', message: 'Profile updated successfully!' });
     } catch (error) {
