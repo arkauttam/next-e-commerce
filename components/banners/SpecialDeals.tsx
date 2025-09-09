@@ -90,11 +90,12 @@ const SpecialDeals = () => {
                     </span>
                   </div>
 
-                  <ShimmerButton
+                  <Button
                     onClick={() => router.push(`/shop/${deal.id}`)}
+                    variant="secondary"
                   >
                     View Deal
-                  </ShimmerButton>
+                  </Button>
                 </div>
               </div>
             </Card>
