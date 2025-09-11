@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import useAuthStore from "@/hooks/auth/useAuthStore";
+import EmailVerifyForm from "./_components/EmailVerifyForm";
 
 // Zod validation schema
 const signUpSchema = z
@@ -46,64 +47,7 @@ const SignUpForm = () => {
         Create an Account
       </h2>
 
-      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-        {/* Name */}
-        <div>
-          <Label htmlFor="name">Full Name</Label>
-          <Input id="name" placeholder="John Doe" {...register("name")} />
-          {errors.name && (
-            <p className="text-red-500 text-sm">{errors.name.message}</p>
-          )}
-        </div>
-
-        {/* Email */}
-        <div>
-          <Label htmlFor="email">Email Address</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="you@example.com"
-            {...register("email")}
-          />
-          {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email.message}</p>
-          )}
-        </div>
-
-        {/* Password */}
-        <div>
-          <Label htmlFor="password">Password</Label>
-          <Input
-            id="password"
-            type="password"
-            placeholder="******"
-            {...register("password")}
-          />
-          {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password.message}</p>
-          )}
-        </div>
-
-        {/* Confirm Password */}
-        <div>
-          <Label htmlFor="confirmPassword">Confirm Password</Label>
-          <Input
-            id="confirmPassword"
-            type="password"
-            placeholder="******"
-            {...register("confirmPassword")}
-          />
-          {errors.confirmPassword && (
-            <p className="text-red-500 text-sm">
-              {errors.confirmPassword.message}
-            </p>
-          )}
-        </div>
-
-        <Button type="submit" className="w-full">
-          Sign Up
-        </Button>
-      </form>
+      <EmailVerifyForm/>
 
       {/* Switch to Login */}
       <p className="text-center mt-4">

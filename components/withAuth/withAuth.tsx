@@ -8,7 +8,6 @@ const withAuth = <P extends object>(WrappedComponent: FC<P>): FC<P> => {
   const WithAuth: FC<P> = (props) => {
     const { isLoading, isAuthenticated, user } = useAuthStore();
     const router = useRouter();
-    
     useEffect(() => {
       if (!isLoading && !isAuthenticated) {
         router.push("/");

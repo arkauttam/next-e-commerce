@@ -1,7 +1,6 @@
 import { StateCreator } from "zustand";
 
 export type AllowedModals =
-  | "MOBILE_OTP"
   | "USER_EMAIL"
   | "EMAIL_FORM"
   | "EMAIL_OTP"
@@ -29,7 +28,7 @@ export type CreateUtilsSlice = StateCreator<UtilsSlice, [], [], UtilsSlice>;
 export const createUtilsSlice: CreateUtilsSlice = (set) => ({
   otp: 0,
   isModalVisible: false,
-  visibleModal: "MOBILE_OTP",
+  visibleModal: "USER_EMAIL",
   setOtp(otp) {
     return set((state) => ({
       ...state,
