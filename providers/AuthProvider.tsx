@@ -16,6 +16,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
       setAuthModal({ openAuthModal: false, authModalType: "LOGIN" });
     }
   }, [isAuthenticated, setAuthModal]);
+  
   useAxiosAuth();
   return <>{children}</>;
 }
