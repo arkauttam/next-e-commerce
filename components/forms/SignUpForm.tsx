@@ -8,6 +8,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import useAuthStore from "@/hooks/auth/useAuthStore";
 import EmailVerifyForm from "./_components/EmailVerifyForm";
+import SignupProvider from "@/providers/SignupProvider";
 
 // Zod validation schema
 const signUpSchema = z
@@ -46,8 +47,11 @@ const SignUpForm = () => {
       <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center">
         Create an Account
       </h2>
+    <SignupProvider>
+
 
       <EmailVerifyForm/>
+    </SignupProvider>
 
       {/* Switch to Login */}
       <p className="text-center mt-4">
