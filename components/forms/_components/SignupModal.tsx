@@ -8,10 +8,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { PiCaretLeft } from "react-icons/pi";
-import UserEmailSection from "./UserEmailSection";
 import EmailOtpForm from "./EmailOtpForm";
 import FinalSubmissionForm from "./FinalSubmissionForm";
 import { useSignupStore } from "@/providers/SignupProvider";
+import EmailVerifyForm from "./EmailVerifyForm";
 
 type Props = {};
 
@@ -48,7 +48,7 @@ const SignupModal: FC<Props> = ({}) => {
             Step <span className="text-[#164880]">1</span> of{" "}
             <span className="text-[#164880]">3</span>
           </h5>
-          <UserEmailSection />
+          <EmailVerifyForm />
         </DialogContent>
       </Dialog>
     );
