@@ -32,6 +32,7 @@
     "embla-carousel-autoplay": "^8.0.2",
     "embla-carousel-react": "^8.0.2",
     "framer-motion": "^11.18.2",
+    "input-otp": "^1.4.2",
     "lucide-react": "^0.372.0",
     "motion": "^12.23.12",
     "next": "^14.2.3",
@@ -46,13 +47,15 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.23.6",
-    "zustand": "^4.5.2"
+    "zustand": "^4.5.2",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/zxcvbn": "^4.4.5",
     "eslint": "^8",
     "eslint-config-next": "14.2.2",
     "postcss": "^8",
