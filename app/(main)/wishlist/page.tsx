@@ -7,6 +7,7 @@ import useWishlistStore from "@/store/wishlistStore";
 import Image from "next/image";
 import Link from "next/link";
 import { formatPrice } from "@/lib/formatPrice";
+import withAuth from "@/components/withAuth/withAuth";
 
 const WishlistPage = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -79,4 +80,4 @@ const WishlistPage = () => {
   );
 };
 
-export default WishlistPage;
+export default withAuth(WishlistPage);

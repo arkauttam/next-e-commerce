@@ -1,8 +1,10 @@
+"use client"
 import OrderSummaryForCheckout from "@/components/carts/OrderSummaryForCheckout";
 import CheckoutForm from "@/components/forms/CheckoutForm";
 import CouponCodeForm from "@/components/forms/CouponCodeForm";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import withAuth from "@/components/withAuth/withAuth";
 import React from "react";
 
 const CheckoutPage = () => {
@@ -38,4 +40,4 @@ const CheckoutPage = () => {
   )
 }
 
-export default CheckoutPage
+export default withAuth(CheckoutPage);

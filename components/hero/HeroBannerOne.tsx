@@ -15,6 +15,9 @@ import { motion } from "framer-motion";
 import { bannerData } from "@/data/banner/bannerData";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+//import { RainbowButton } from "@/components/magicui/rainbow-button";
+import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
+
 
 const HeroBannerOne = () => {
   // get banners data from server then display here
@@ -56,14 +59,10 @@ const HeroBannerOne = () => {
                   <p className="max-w-96 mx-auto leading-6">
                     {data.description}
                   </p>
-                  <Button
-                    size={"lg"}
-                    variant="default"
-                    className="text-xl p-3 md:p-8 rounded-full gap-2 md:gap-4 mb-4"
-                    onClick={() => router.push(`/${data.link}`)}
-                  >
-                    <ArrowRight className="text-rose-500" /> {data.button}
-                  </Button>
+                  <InteractiveHoverButton   className="w-50 h-16 text-lg"
+                         onClick={() => router.push(`/${data.link}`)}>
+                   {data.button}
+                    </InteractiveHoverButton>
                 </motion.div>
 
                 <motion.div

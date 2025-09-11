@@ -3,9 +3,10 @@ import React from "react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import { TextAnimate } from "@/components/ui/text-animate";
+
 
 const BannerTwo = () => {
-
   const router = useRouter();
 
   // get latest banner data from server and show here
@@ -18,18 +19,26 @@ const BannerTwo = () => {
             <main className="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
               <div className="sm:text-center lg:text-left">
                 <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
-                  <span className="block xl:inline">Shop the latest</span>{" "}
-                  <span className="block text-blue-500 dark:text-blue-600 xl:inline">
-                    tech gadgets
-                  </span>
+                  <TextAnimate
+                    text="Shop the latest"
+                    className="text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl block"
+                  />{" "}
+                  <TextAnimate
+                    text="tech gadgets"
+                    className="block text-blue-500 dark:text-blue-600 text-xl sm:text-3xl md:text-4xl"
+                  />
                 </h1>
+
                 <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
                   From smartphones to smart home devices, find everything you
                   need right here.
                 </p>
                 <div className="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                   <div className="rounded-md">
-                    <Button className="w-full flex items-center justify-center px-12 py-3 border border-transparent text-base font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10" onClick={() => router.push(`/shop`)}>
+                    <Button
+                      className="w-full flex items-center justify-center px-12 py-3 border border-transparent text-base font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 md:py-4 md:text-lg md:px-10"
+                      onClick={() => router.push(`/shop`)}
+                    >
                       Shop Now
                     </Button>
                   </div>
