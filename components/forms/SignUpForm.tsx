@@ -47,11 +47,11 @@ const SignUpForm = () => {
       <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center">
         Create an Account
       </h2>
-    <SignupProvider>
+      <SignupProvider>
 
 
-      <EmailVerifyForm/>
-    </SignupProvider>
+        <EmailVerifyForm />
+      </SignupProvider>
 
       {/* Switch to Login */}
       <p className="text-center mt-4">
@@ -66,6 +66,7 @@ const SignUpForm = () => {
         </button>
       </p>
     </div>
+
   );
 };
 
