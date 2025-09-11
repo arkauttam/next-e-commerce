@@ -38,6 +38,7 @@ const SignUpForm = () => {
       <div className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
           Create an Account
+          
         </h2>
         <div>
           <Button className="w-full p-6 flex items-center justify-center gap-2 text-lg rounded-lg focus:outline-none mt-6">
