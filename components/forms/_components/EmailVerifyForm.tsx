@@ -59,7 +59,7 @@ const EmailVerifyForm: FC<Props> = ({ }) => {
     mutationFn: async (body: any) => {
       const { data, error } = await customFetch<any, any>({
         axiosInstance: axios,
-        url: "/api/send-email-otp",
+        url: "/accounts/otp/send/",
         method: "POST",
         body,
       });
