@@ -1,90 +1,44 @@
 "use client";
+import { FC } from "react";
+import useAuthStore from "@/hooks/auth/useAuthStore";
+import EmailVerifyForm from "./_components/EmailVerifyForm";
+import ResetPassword from "./_components/ResetPassword";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { ImSpinner2 } from "react-icons/im";
-import { useState } from "react";
-import { axiosPublic } from "@/services/axiosService";
-import { toast } from "sonner";
+const SignUpForm: FC = () => {
+  const { setAuthModal } = useAuthStore();
 
-const schema = z.object({
-  email: z.string().email("Invalid email"),
-});
-type schemaType = z.infer<typeof schema>;
-const ResetForm = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const form = useForm<schemaType>({
-    resolver: zodResolver(schema),
-    defaultValues: { email: "" },
-  });
-  const handleSubmit = async (values: schemaType) => {
-    setIsLoading(true);
-    try {
-      const { data, status } = await axiosPublic.post(
-        "/accounts/password-reset/",
-        JSON.stringify({
-          account_email: values.email,
-        }),
-      );
-
-      if (status >= 200 && status <= 400) {
-        console.log(data);
-        toast.success(`Reset password link sent to ${values.email}`);
-      }
-    } catch (error: any) {
-      toast.error(error.response?.data?.detail ?? error.response?.data.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
   return (
-    <Form {...form}>
-      <form className="space-y-3" onSubmit={form.handleSubmit(handleSubmit)}>
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem className="flex-1">
-              <FormLabel className="text-xs text-gray-600">
-                Email <span className="text-sm text-destructive">*</span>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter Email Address"
-                  className="focus-visible:ring-sky-600"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button
-          className="w-full"
-          variant="secondary"
-          type="submit"
-          disabled={isLoading}
+    <div className="p-8 rounded-lg shadow-md w-full">
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center">
+        Reset Password
+      </h2>
+
+      <ResetPassword />
+
+      <p className="text-center mt-4">
+        Already have an account?{" "}
+        <button
+          className="underline"
+          onClick={() =>
+            setAuthModal({ openAuthModal: true, authModalType: "LOGIN" })
+          }
         >
-          {isLoading ? (
-            <ImSpinner2 className="h-5 w-5 animate-spin" />
-          ) : (
-            <span>Submit</span>
-          )}
-        </Button>
-      </form>
-    </Form>
+          Sign In
+        </button>
+      </p>
+      <p className="text-center mt-4">
+        Don&apos;t have an account?{" "}
+        <button
+          className="underline"
+          onClick={() =>
+            setAuthModal({ openAuthModal: true, authModalType: "SIGNUP" })
+          }
+        >
+          Sign Up
+        </button>
+      </p>
+    </div>
   );
 };
 
-export default ResetForm;
+export default SignUpForm;
