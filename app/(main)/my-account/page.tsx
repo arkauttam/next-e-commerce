@@ -80,18 +80,17 @@ const MyAccountPage = () => {
     fetchData()
   }, [])
   useEffect(() => {
-    if (user) {
-      setEditForm({
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        mobile_no: user.mobile_no
-      });
+  if (user) {
+    setEditForm({
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      mobile_no: user.mobile_no,
+    });
 
-      // In a real app, you would fetch addresses from an API
-      setAddresses(mockAddresses);
-    }
-  }, [user,mockAddresses]);
+    setAddresses(mockAddresses);
+  }
+}, [user]);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
