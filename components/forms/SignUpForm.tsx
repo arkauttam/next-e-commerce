@@ -48,8 +48,6 @@ const SignUpForm = () => {
         Create an Account
       </h2>
       <SignupProvider>
-
-
         <EmailVerifyForm />
       </SignupProvider>
 
