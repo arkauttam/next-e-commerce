@@ -1,42 +1,46 @@
 "use client";
 
-import { setCookie, getCookie } from "cookies-next";
+import { getCookie, setCookie, deleteCookie } from "cookies-next";
 import { axiosPublic } from "@/services/axiosService";
 import useAuthStore from "../auth/useAuthStore";
+import { getTokenRemainingSeconds } from "@/lib/jwt";
+
+const ACCESS_COOKIE = "access";
+const USER_COOKIE = "user";
 
 export const useRefreshToken = () => {
-  const { setAccessToken } = useAuthStore();
+  const { setAccessToken, setUserLoggedOut, user } = useAuthStore();
 
   const refreshToken = async () => {
     try {
-      const refresh = getCookie("refresh");
-
-      if (!refresh) {
-        throw new Error("No refresh token found");
-      }
-
-      const { data } = await axiosPublic.post("/accounts/token/refresh/", {
-        refresh,
-      });
+      const { data } = await axiosPublic.post("/accounts/token/refresh/");
 
       if (data?.access) {
         setAccessToken(data.access);
-        setCookie("access", data.access, {
-          maxAge: 24 * 60 * 60,
+
+        const remain = getTokenRemainingSeconds(data.access);
+
+        setCookie(ACCESS_COOKIE, data.access, {
+          maxAge: remain,
           sameSite: "lax",
         });
+
+        if (user) {
+          setCookie(USER_COOKIE, JSON.stringify(user), {
+            maxAge: remain,
+            sameSite: "lax",
+          });
+        }
+
+        return data.access;
       }
 
-      if (data?.refresh) {
-        setCookie("refresh", data.refresh, {
-          maxAge: 24 * 60 * 60,
-          sameSite: "lax",
-        });
-      }
-
-      return data?.access;
+      console.warn("Refresh token call returned no access token");
+      setUserLoggedOut();
+      return null;
     } catch (error) {
       console.error("Refresh token failed:", error);
+      setUserLoggedOut();
       return null;
     }
   };

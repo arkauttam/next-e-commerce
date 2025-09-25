@@ -1,18 +1,18 @@
-// useAuthStore.ts
+"use client";
+
 import { create } from "zustand";
 import { getCookie, deleteCookie, setCookie } from "cookies-next";
-import { User } from "@/types/user.types";
+import type { User } from "@/types/user.types";
+import { getTokenRemainingSeconds } from "@/lib/jwt";
 
-export type TAuthModal = {
-  open: boolean;
-  type: "LOGIN" | "SIGNUP" | "RESET";
-};
+const ACCESS_COOKIE = "access";
+const USER_COOKIE = "user";
 
 interface State {
   accessToken: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  user: any;
+  user: User | null;
   openAuthModal: boolean;
   authModalType: "LOGIN" | "SIGNUP" | "RESET";
 }
@@ -22,15 +22,15 @@ interface AuthModalPayload {
   authModalType: "LOGIN" | "SIGNUP" | "RESET";
 }
 interface LoggedInPayload {
-  user: any;
+  user: User | null;
   accessToken: string | null;
 }
 
 interface Actions {
-  hydrate: () => void; // <-- NEW
+  hydrate: () => void;
   setAuthModal: (payload: AuthModalPayload) => void;
-  setUser: (user: User) => void;
-  setAccessToken: (accessToken: string) => void;
+  setUser: (user: User | null) => void;
+  setAccessToken: (accessToken: string | null) => void;
   setUserLoggedIn: (payload: LoggedInPayload) => void;
   setUserLoggedOut: () => void;
   setIsLoading: (isLoading: boolean) => void;
@@ -45,16 +45,26 @@ const useAuthStore = create<State & Actions>((set) => ({
   isAuthenticated: false,
 
   hydrate: () => {
-    const accessToken = getCookie("access") as string | undefined;
-    const userCookie = getCookie("user") as string | undefined;
+    const accessToken = getCookie(ACCESS_COOKIE) as string | undefined;
+    const userCookie = getCookie(USER_COOKIE) as string | undefined;
 
     if (accessToken && userCookie) {
-      set({
-        accessToken,
-        user: JSON.parse(userCookie),
-        isAuthenticated: true,
-        isLoading: false,
-      });
+      try {
+        set({
+          accessToken,
+          user: JSON.parse(userCookie),
+          isAuthenticated: true,
+          isLoading: false,
+        });
+      } catch {
+        deleteCookie(USER_COOKIE);
+        set({
+          accessToken: null,
+          user: null,
+          isAuthenticated: false,
+          isLoading: false,
+        });
+      }
     } else {
       set({
         accessToken: null,
@@ -69,31 +79,48 @@ const useAuthStore = create<State & Actions>((set) => ({
   setIsLoading: (isLoading) => set({ isLoading }),
 
   setUserLoggedIn: (payload) => {
-    setCookie("access", payload.accessToken ?? "", {
-      maxAge: 24 * 60 * 60,
-      sameSite: "lax",
-    });
-    setCookie("refresh", getCookie("refresh") ?? "", {
-      maxAge: 24 * 60 * 60,
-      sameSite: "lax",
-    });
-    setCookie("user", JSON.stringify(payload.user), {
-      maxAge: 24 * 60 * 60,
-      sameSite: "lax",
-    });
+    const newAccess = payload.accessToken ?? null;
+
+    if (newAccess) {
+      const remain = getTokenRemainingSeconds(newAccess);
+      if (remain > 0) {
+        setCookie(ACCESS_COOKIE, newAccess, {
+          maxAge: remain,
+          sameSite: "lax",
+        });
+      }
+    } else {
+      deleteCookie(ACCESS_COOKIE);
+    }
+
+    try {
+      const remain = newAccess ? getTokenRemainingSeconds(newAccess) : undefined;
+      if (remain && remain > 0) {
+        setCookie(USER_COOKIE, JSON.stringify(payload.user ?? null), {
+          maxAge: remain,
+          sameSite: "lax",
+        });
+      } else {
+        setCookie(USER_COOKIE, JSON.stringify(payload.user ?? null), {
+          maxAge: 60 * 60,
+          sameSite: "lax",
+        });
+      }
+    } catch {
+      // ignore
+    }
 
     set({
-      accessToken: payload.accessToken,
-      user: payload.user,
-      isAuthenticated: true,
+      accessToken: newAccess,
+      user: payload.user ?? null,
+      isAuthenticated: !!newAccess,
       isLoading: false,
     });
   },
 
   setUserLoggedOut: () => {
-    deleteCookie("access");
-    deleteCookie("refresh");
-    deleteCookie("user");
+    deleteCookie(ACCESS_COOKIE);
+    deleteCookie(USER_COOKIE);
     set({
       accessToken: null,
       user: null,
@@ -102,7 +129,21 @@ const useAuthStore = create<State & Actions>((set) => ({
   },
 
   setUser: (user) => set({ user, isAuthenticated: true }),
-  setAccessToken: (accessToken) => set({ accessToken }),
+
+  setAccessToken: (accessToken) => {
+    if (accessToken) {
+      const remain = getTokenRemainingSeconds(accessToken);
+      if (remain > 0) {
+        setCookie(ACCESS_COOKIE, accessToken, {
+          maxAge: remain,
+          sameSite: "lax",
+        });
+      }
+    } else {
+      deleteCookie(ACCESS_COOKIE);
+    }
+    set({ accessToken, isAuthenticated: !!accessToken });
+  },
 }));
 
 export default useAuthStore;
