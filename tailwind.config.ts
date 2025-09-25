@@ -17,6 +17,9 @@ const config: Config = {
       },
     },
     extend: {
+      screens: {
+        xs: "371px", // text appears at 371px and above
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

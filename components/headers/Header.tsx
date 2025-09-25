@@ -25,57 +25,66 @@ const Header = () => {
       label: "Shop",
       link: "/shop",
       isActive: pathname.startsWith("/shop"),
-    }
+    },
   ];
 
   const { openModal } = useMobileSearchModal();
 
   return (
-    <header className="sticky bg-white dark:bg-slate-950 top-0 z-50 w-full">
-      <div className="max-w-screen-xl mx-auto  p-4 md:py-4 md:px-8 flex items-center justify-between gap-2">
+    <header className="sticky top-0 z-50 w-full bg-white dark:bg-slate-950 shadow-sm">
+      <div className="max-w-screen-xl mx-auto flex items-center justify-between px-3 py-3 sm:px-4 md:px-6 lg:px-8">
+        {/* Logo */}
         <Logo />
-        <ul className="hidden lg:flex items-center gap-4 xl:gap-6 text-lg ">
+
+        {/* Navigation (Desktop only) */}
+        <ul className="hidden lg:flex items-center gap-4 xl:gap-6 text-base font-medium">
           {links.map((link) => (
             <Link
               key={link.link}
-              className={cn(
-                "font-medium px-4 py-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800",
-                link.isActive && "bg-gray-200 dark:bg-gray-800  rounded-full"
-              )}
               href={link.link}
+              className={cn(
+                "px-3 py-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition",
+                link.isActive && "bg-gray-200 dark:bg-gray-800"
+              )}
             >
               {link.label}
             </Link>
           ))}
         </ul>
-        <div className="flex items-center gap-6 ">
-          {/* mobile search option */}
-          <div className="lg:hidden text-center">
-            <Search size={25} onClick={openModal} />
-          </div>
-          <div className="lg:hidden text-center">
 
+        {/* Actions */}
+        <div className="flex items-center gap-3 sm:gap-4 md:gap-5 lg:gap-6">
+          {/* Mobile Search */}
+          <button
+            className="lg:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+            onClick={openModal}
+          >
+            <Search size={22} />
+          </button>
+
+          {/* Mobile Account */}
+          <div className="lg:hidden">
             <AccountPopover />
           </div>
 
-          {/* desktop search */}
-          <div className="hidden lg:block">
+          {/* Desktop Search */}
+          <div className="hidden lg:block w-48 xl:w-64">
             <Suspense fallback={<p>Loading...</p>}>
               <SearchBox />
             </Suspense>
           </div>
-          <div className="flex items-center gap-6 lg:gap-2 lg:-mt-1">
-            <div className="hidden lg:block">
-              <ThemeToggle />
 
-            </div>
-            <div className="hidden lg:block">
+          {/* Desktop Theme + Account */}
+          <div className="hidden lg:flex items-center gap-3">
+            <ThemeToggle />
             <AccountPopover />
-
-            </div>
-            <Cart />
-            <MobileHeader />
           </div>
+
+          {/* Cart (always visible) */}
+          <Cart />
+
+          {/* Mobile Hamburger Menu */}
+          <MobileHeader />
         </div>
       </div>
       <Separator />

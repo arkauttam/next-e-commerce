@@ -1,4 +1,4 @@
-"use client";
+/* "use client" */
 import React, { useState } from "react";
 import {
   Popover,
@@ -44,8 +44,14 @@ const AccountPopover = () => {
   const axiosProtected = useAxiosAuth();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { isAuthenticated, setAuthModal, user, setUserLoggedOut, isLoading: isAuthLoading } = useAuthStore();
-  console.log("isAuthenticated",isAuthenticated)
+  const {
+    isAuthenticated,
+    setAuthModal,
+    user,
+    setUserLoggedOut,
+    isLoading: isAuthLoading,
+  } = useAuthStore();
+
   const { mutateAsync: logoutMutation } = useMutation({
     mutationKey: [QUERY_KEYS.AUTH.LOGOUT],
     mutationFn: async (body: any) => {
@@ -66,7 +72,7 @@ const AccountPopover = () => {
   const handleLogout = async () => {
     const refresh = getCookie("refresh");
     logoutMutation(
-      {refresh: refresh },
+      { refresh },
       {
         onSuccess() {
           deleteCookie("refresh");
@@ -80,9 +86,10 @@ const AccountPopover = () => {
         onSettled() {
           setIsLoading(false);
         },
-      },
+      }
     );
   };
+
   const userLinks = [
     {
       link: "/my-account",
@@ -111,102 +118,100 @@ const AccountPopover = () => {
   ];
 
   return (
-    <div>
-      <Popover>
-        <PopoverTrigger className="flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 duration-200 p-2 rounded-md">
-          {isAuthenticated ? (
-            <span>Hi, {user?.first_name || "Guest"}</span>
-          ) : (
-            <User size={25} />
-          )}
-        </PopoverTrigger>
-        <PopoverContent className="rounded-2xl">
-          {isAuthenticated ? (
-            <ul className="space-y-1 text-center">
-              <UserAvatar />
-              <Separator className="!my-2" />
-              {userLinks.map((link) => (
-                <Link
-                  key={link.link}
-                  href={link.link}
-                  className={cn(
-                    "flex items-center gap-2 hover:bg-gray-200 dark:hover:bg-gray-800 p-2 rounded-md",
-                    link.isActive && "bg-gray-200 dark:bg-gray-800"
-                  )}
-                >
-                  {link.icon} {link.label}
-                </Link>
-              ))}
-              <Separator className="!my-2" />
+    <Popover>
+      <PopoverTrigger className="flex items-center justify-center hover:bg-gray-200 dark:hover:bg-gray-800 duration-200 p-2 rounded-md">
+        {isAuthenticated ? (
+          <span>Hi, {user?.first_name || "Guest"}</span>
+        ) : (
+          <User size={25} />
+        )}
+      </PopoverTrigger>
+      <PopoverContent className="rounded-2xl">
+        {isAuthenticated ? (
+          <ul className="space-y-1 text-center">
+            <UserAvatar />
+            <Separator className="!my-2" />
+            {userLinks.map((link) => (
+              <Link
+                key={link.link}
+                href={link.link}
+                className={cn(
+                  "flex items-center gap-2 hover:bg-gray-200 dark:hover:bg-gray-800 p-2 rounded-md",
+                  link.isActive && "bg-gray-200 dark:bg-gray-800"
+                )}
+              >
+                {link.icon} {link.label}
+              </Link>
+            ))}
+            <Separator className="!my-2" />
 
-              <Dialog open={open} onOpenChange={setOpen}>
-                <DialogTrigger asChild>
-                  <button className="flex items-center justify-start gap-2 p-2 bg-transparent hover:opacity-50">
-                    <LogOut size={16} />
-                    Logout
-                  </button>
-                </DialogTrigger>
-                <DialogContent className="hover:bg-gray-200 dark:hover:bg-gray-900 duration-200 sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>You will be logged out</DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                    <Button
-                      variant="secondary"
-                      onClick={handleLogout}
-                      disabled={isLoading}
-                    >
-                      {isLoading ? (
-                        <ImSpinner2 className="h-5 w-5 animate-spin" />
-                      ) : (
-                        "Log out"
-                      )}
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </ul>
-          ) : (
-            <ul className="space-y-1 text-center">
-              {/* Signup */}
-              <li>
-                <button
-                  className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50"
-                  onClick={() =>
-                    setAuthModal({
-                      openAuthModal: true,
-                      authModalType: "SIGNUP",
-                    })
-                  }
-                >
-                  <UserPlus size={16} />
-                  Sign Up
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <button className="flex items-center justify-start gap-2 p-2 bg-transparent hover:opacity-50">
+                  <LogOut size={16} />
+                  Logout
                 </button>
-              </li>
+              </DialogTrigger>
+              <DialogContent className="hover:bg-gray-200 dark:hover:bg-gray-900 duration-200 sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Are you absolutely sure?</DialogTitle>
+                  <DialogDescription>You will be logged out</DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                  <Button
+                    variant="secondary"
+                    onClick={handleLogout}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <ImSpinner2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                      "Log out"
+                    )}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </ul>
+        ) : (
+          <ul className="space-y-1 text-center">
+            {/* Signup */}
+            <li>
+              <button
+                className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50"
+                onClick={() =>
+                  setAuthModal({
+                    openAuthModal: true,
+                    authModalType: "SIGNUP",
+                  })
+                }
+              >
+                <UserPlus size={16} />
+                Sign Up
+              </button>
+            </li>
 
-              <Separator className="!my-2" />
+            <Separator className="!my-2" />
 
-              {/* Login */}
-              <li>
-                <button
-                  className="flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50"
-                  onClick={() =>
-                    setAuthModal({
-                      openAuthModal: true,
-                      authModalType: "LOGIN",
-                    })
-                  }
-                >
-                  <LogIn size={16} />
-                  Log In
-                </button>
-              </li>
-            </ul>
-          )}
-        </PopoverContent>
-      </Popover>
-    </div>
+            {/* Login */}
+            <li>
+              <button
+                className="  flex items-center justify-center gap-2 p-2 bg-transparent hover:opacity-50"
+                onClick={() =>
+                  setAuthModal({
+                    openAuthModal: true,
+                    authModalType: "LOGIN",
+                  })
+                }
+              >
+                <LogIn size={16} />
+                Log In
+              </button>
+            </li>
+          </ul>
+        )}
+      </PopoverContent>
+    </Popover>
   );
 };
 

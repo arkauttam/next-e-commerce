@@ -5,6 +5,8 @@ import { Button } from "../ui/button";
 import { Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+
+
 const SearchBox = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
