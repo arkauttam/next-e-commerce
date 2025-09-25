@@ -45,7 +45,7 @@ const AccountPopover = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isAuthenticated, setAuthModal, user, setUserLoggedOut, isLoading: isAuthLoading } = useAuthStore();
-  console.log("isAuthenticated",isAuthenticated)
+  console.log("isAuthenticated", isAuthenticated)
   const { mutateAsync: logoutMutation } = useMutation({
     mutationKey: [QUERY_KEYS.AUTH.LOGOUT],
     mutationFn: async (body: any) => {
@@ -66,7 +66,7 @@ const AccountPopover = () => {
   const handleLogout = async () => {
     const refresh = getCookie("refresh");
     logoutMutation(
-      {refresh: refresh },
+      { refresh },
       {
         onSuccess() {
           deleteCookie("refresh");
@@ -75,14 +75,15 @@ const AccountPopover = () => {
           router.push("/");
         },
         onError(error) {
-          toast.error(error?.message);
+          toast.error(error?.message || "Logout failed");
         },
         onSettled() {
           setIsLoading(false);
         },
-      },
+      }
     );
   };
+
   const userLinks = [
     {
       link: "/my-account",

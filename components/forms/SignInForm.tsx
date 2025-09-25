@@ -60,20 +60,12 @@ const SignInForm = () => {
         password: values.password,
       })) as any;
 
-      setCookie("access", loginResults?.access, {
-        maxAge: 24 * 60 * 60,
-        sameSite: "lax",
-      });
-      setCookie("refresh", loginResults?.refresh, {
-        maxAge: 24 * 60 * 60,
-        sameSite: "lax",
-      });
-
-      setAuthModal({ openAuthModal: false, authModalType: "LOGIN" });
       setUserLoggedIn({
         accessToken: loginResults?.access,
         user: loginResults?.user,
       });
+
+      setAuthModal({ openAuthModal: false, authModalType: "LOGIN" });
 
       toast.success("Login Successful");
     } catch (error) {
@@ -88,6 +80,7 @@ const SignInForm = () => {
       setIsLoading(false);
     }
   }
+
 
   return (
     <div className="p-8 rounded-lg shadow-md w-full">
