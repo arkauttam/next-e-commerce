@@ -15,12 +15,10 @@ import { motion } from "framer-motion";
 import { bannerData } from "@/data/banner/bannerData";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
-//import { RainbowButton } from "@/components/magicui/rainbow-button";
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
 
 
 const HeroBannerOne = () => {
-  // get banners data from server then display here
   const router = useRouter();
 
   return (
