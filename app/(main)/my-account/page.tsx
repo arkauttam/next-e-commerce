@@ -68,29 +68,29 @@ const MyAccountPage = () => {
     { id: 2, address: "123 Main Street, Apartment 4B, Kolkata, West Bengal", pin_code: "700001", is_default: false },
     { id: 3, address: "Office: Tech Park Building, Sector V, Salt Lake, Kolkata", pin_code: "700091", is_default: false },
   ];
- useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await axiosProtected.get("/accounts/profile/")
       } catch (err: any) {
         console.log(err.message)
-      } 
+      }
     }
 
     fetchData()
-  }, [])
+  })
   useEffect(() => {
-  if (user) {
-    setEditForm({
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-      mobile_no: user.mobile_no,
-    });
+    if (user) {
+      setEditForm({
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        mobile_no: user.mobile_no,
+      });
 
-    setAddresses(mockAddresses);
-  }
-}, [user]);
+      setAddresses(mockAddresses);
+    }
+  }, [user]);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {

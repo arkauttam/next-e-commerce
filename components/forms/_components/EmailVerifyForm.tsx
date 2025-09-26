@@ -26,6 +26,7 @@ import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import useAuthStore from "@/hooks/auth/useAuthStore";
+import { ArrowLeft, ChevronLeft } from "lucide-react";
 
 interface Props { }
 
@@ -45,7 +46,10 @@ const EmailVerifyForm: FC<Props> = () => {
     confirm_password: z.string().min(6, "Confirm Password is required"),
     otp: z.string().optional(),
     address: z.string().min(1, "Address is required"),
-    pin_code: z.string().min(6, "Pin code is required"),
+    pin_code: z.string()
+      .length(6, "Pin code must be 6 digits")
+      .regex(/^[1-9][0-9]{5}$/, "Invalid Pin code"),
+
   }).refine((data) => data.password === data.confirm_password, {
     message: "Passwords must match",
     path: ["confirm_password"],
@@ -71,7 +75,7 @@ const EmailVerifyForm: FC<Props> = () => {
   const [isPasswordShowing, setIsPasswordShowing] = useState(false);
   const [isConfirmPasswordShowing, setIsConfirmPasswordShowing] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState<ZXCVBNResult | null>(null);
-  const [step, setStep] = useState<"form" | "otp">("form");
+  const [step, setStep] = useState<"basic" | "details" | "otp">("basic");
   const [otpTimer, setOtpTimer] = useState(300);
   const { setAuthModal } = useAuthStore();
 
@@ -91,6 +95,35 @@ const EmailVerifyForm: FC<Props> = () => {
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordStrength(zxcvbn(e.target.value));
+  };
+
+  // Validation for basic fields only
+  const validateBasicFields = () => {
+    const basicFields = ["firstName", "lastName", "email", "mobile"];
+    let isValid = true;
+
+    basicFields.forEach((field) => {
+      form.trigger(field as keyof FormDTO);
+      if (form.formState.errors[field as keyof FormDTO]) {
+        isValid = false;
+      }
+    });
+
+    // Check if all basic fields have values
+    const values = form.getValues();
+    if (!values.firstName || !values.lastName || !values.email || !values.mobile) {
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
+  // Handle Next button for basic step
+  const handleNextFromBasic = async () => {
+    const isValid = await form.trigger(["firstName", "lastName", "email", "mobile"]);
+    if (isValid) {
+      setStep("details");
+    }
   };
 
   // --- Mutations ---
@@ -129,7 +162,6 @@ const EmailVerifyForm: FC<Props> = () => {
       form.reset();
       router.push("/");
       setAuthModal({ openAuthModal: false, authModalType: "SIGNUP" })
-
     },
     onError: (err: any) => toast.error(err.message || "OTP verification failed"),
   });
@@ -190,12 +222,18 @@ const EmailVerifyForm: FC<Props> = () => {
 
   return (
     <Form {...form}>
-      <form
-        className="space-y-5"
-        onSubmit={form.handleSubmit(step === "form" ? handleSubmitForm : handleVerifyOtp)}
-      >
-        {step === "form" && (
+      <form className="space-y-5">
+        {/* Step 1: Basic Information */}
+        {step === "basic" && (
           <>
+            {/* Progress indicator */}
+            <div className="mb-6">
+              <div className="text-sm text-gray-600 mb-2">Step 1 of 3: Basic Information</div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-[#164880] h-2 rounded-full" style={{ width: '33%' }}></div>
+              </div>
+            </div>
+
             {/* First & Last Name */}
             <div className="flex items-center gap-2">
               {["firstName", "lastName"].map((name) => (
@@ -214,11 +252,27 @@ const EmailVerifyForm: FC<Props> = () => {
                           {...field}
                         />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
               ))}
             </div>
+
+            {/* Email */}
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-xs">Email Address *</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="Enter Email" className="rounded-lg" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             {/* Mobile */}
             <FormField
@@ -234,23 +288,43 @@ const EmailVerifyForm: FC<Props> = () => {
                       <Input {...field} type="tel" placeholder="Enter Mobile Number" maxLength={10} className="flex-1 border-0 focus-visible:ring-transparent" />
                     </div>
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
 
-            {/* Email */}
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-xs">Email Address *</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="Enter Email" className="rounded-lg" />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+            <Button
+              variant="secondary"
+              type="button"
+              onClick={handleNextFromBasic}
+              className="w-full flex justify-center"
+            >
+              Next
+            </Button>
+          </>
+        )}
+
+        {/* Step 2: Additional Details */}
+        {step === "details" && (
+          <>
+            {/* Progress indicator */}
+            <div className="mb-6">
+              <div className="text-sm text-gray-600 mb-2">Step 2 of 3: Additional Details</div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-[#164880] h-2 rounded-full" style={{ width: '66%' }}></div>
+              </div>
+            </div>
+
+            {/* Back button */}
+            <Button
+              variant="outline"
+              type="button"
+              onClick={() => setStep("basic")}
+              className="mb-4"
+            >
+              <ChevronLeft />
+              Back
+            </Button>
 
             {/* Address */}
             <FormField
@@ -262,6 +336,7 @@ const EmailVerifyForm: FC<Props> = () => {
                   <FormControl>
                     <Input {...field} placeholder="Enter Address" className="rounded-lg" />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -276,6 +351,7 @@ const EmailVerifyForm: FC<Props> = () => {
                   <FormControl>
                     <Input {...field} placeholder="Enter Pin Code" maxLength={6} className="rounded-lg" />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -316,6 +392,7 @@ const EmailVerifyForm: FC<Props> = () => {
                           </button>
                         </div>
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -337,7 +414,8 @@ const EmailVerifyForm: FC<Props> = () => {
 
             <Button
               variant="secondary"
-              type="submit"
+              type="button"
+              onClick={form.handleSubmit(handleSubmitForm)}
               className="w-full flex justify-center"
               disabled={registerMutation.isPending}
             >
@@ -346,9 +424,24 @@ const EmailVerifyForm: FC<Props> = () => {
           </>
         )}
 
-        {/* --- Step 2: OTP --- */}
+        {/* Step 3: OTP Verification */}
         {step === "otp" && (
           <>
+            {/* Progress indicator */}
+            <div className="mb-6">
+              <div className="text-sm text-gray-600 mb-2">Step 3 of 3: Email Verification</div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-[#164880] h-2 rounded-full" style={{ width: '100%' }}></div>
+              </div>
+            </div>
+
+            <div className="text-center mb-4">
+              <h3 className="text-lg font-semibold">Verify Your Email</h3>
+              <p className="text-sm text-gray-600">
+                {`We've sent a verification code to ${form.getValues("email")}`}
+              </p>
+            </div>
+
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm text-gray-600">OTP expires in {formatTimer(otpTimer)}</span>
               <button
@@ -362,8 +455,8 @@ const EmailVerifyForm: FC<Props> = () => {
                   password: form.getValues("password"),
                   password2: form.getValues("confirm_password"),
                 })}
-                disabled={resendOtpMutation.isPending}
-                className="text-secondary"
+                disabled={resendOtpMutation.isPending || otpTimer > 0}
+                className="text-secondary disabled:text-gray-400"
               >
                 {resendOtpMutation.isPending ? <LuLoader className="animate-spin w-5 h-5" /> : "Resend OTP"}
               </button>
@@ -396,7 +489,8 @@ const EmailVerifyForm: FC<Props> = () => {
 
             <Button
               variant="secondary"
-              type="submit"
+              type="button"
+              onClick={form.handleSubmit(handleVerifyOtp)}
               className="w-full flex justify-center"
               disabled={verifyOtpMutation.isPending}
             >
