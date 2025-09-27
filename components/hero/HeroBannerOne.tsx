@@ -57,10 +57,10 @@ const HeroBannerOne = () => {
                   <p className="max-w-96 mx-auto leading-6">
                     {data.description}
                   </p>
-                  <InteractiveHoverButton   className="w-50 h-16 text-lg"
-                         onClick={() => router.push(`/${data.link}`)}>
-                   {data.button}
-                    </InteractiveHoverButton>
+                  <InteractiveHoverButton className="w-50 h-16 text-lg"
+                    onClick={() => router.push(`/${data.link}`)}>
+                    {data.button}
+                  </InteractiveHoverButton>
                 </motion.div>
 
                 <motion.div
